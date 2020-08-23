@@ -99,8 +99,7 @@ class HomePage extends StatelessWidget {
 
     DateTime startDate;
     if (_currentTime.weekday == 6 || _currentTime.weekday == 7)
-      startDate =
-          _currentTime.subtract(Duration(days: 8));
+      startDate = _currentTime.subtract(Duration(days: 8));
     else
       startDate = _currentTime;
 
@@ -113,33 +112,21 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             FlatButton(
                 onPressed: () {
-                  DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      minTime: DateTime(2018, 3, 5),
-                      maxTime: DateTime.now(),
-                      visibleDayPredicate: (date) =>
-                          date.weekday != 6 && date.weekday != 7,
-                      theme: DatePickerTheme(
-                        headerColor: Colors.orange,
-                        backgroundColor: Colors.blue,
-                        itemStyle: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                        doneStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                      onChanged: (date) {
-                        print('change $date in time zone ' +
-                            date.timeZoneOffset.inHours.toString());
-                      },
-                      onConfirm: (date) {
-                        print('confirm $date');
-                      },
-                      currentTime: startDate,
-                      locale: LocaleType.en);
+                  DatePicker.showDatePicker(
+                    context,
+                    theme: DatePickerTheme(
+                      containerHeight: 210.0,
+                    ),
+                    showTitleActions: true,
+                    minTime: DateTime.now(),
+                    visibleDayPredicate: (date) {
+                      return date.weekday != 6 && date.weekday != 7;
+                    },
+                    maxTime: DateTime(2099, 12, 31),
+                    onConfirm: (date) {},
+                    currentTime: DateTime.now(),
+                    locale: LocaleType.it,
+                  );
                 },
                 child: Text(
                   'show date picker(custom theme &date time range)',

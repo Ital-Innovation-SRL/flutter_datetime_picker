@@ -191,6 +191,8 @@ class DatePickerModel extends CommonPickerModel {
       maxReps--;
     }
 
+    currentTime = DateTime(currentTime.year, currentTime.month, minDay);
+
     return minDay;
   }
 
@@ -214,11 +216,7 @@ class DatePickerModel extends CommonPickerModel {
       if (visibleDayPredicate(date)) return '${minDay + index}${_localeDay()}';
       return null;
     });
-
-    print(this.rightList);
-
     this.rightList.removeWhere((element) => element == null);
-    print(this.rightList);
   }
 
   @override
