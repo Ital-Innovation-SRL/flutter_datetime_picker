@@ -177,10 +177,21 @@ class DatePickerModel extends CommonPickerModel {
   }
 
   int _minDayOfCurrentMonth() {
-    return currentTime.year == minTime.year &&
-            currentTime.month == minTime.month
-        ? minTime.day
-        : 1;
+    int minDay =
+        currentTime.year == minTime.year && currentTime.month == minTime.month
+            ? minTime.day
+            : 1;
+    int dayCount = calcDateCount(currentTime.year, currentTime.month);
+    int maxReps = dayCount - minDay;
+    // TODO: this probably breaks sometimes
+    while (maxReps > 0 &&
+        !visibleDayPredicate(
+            DateTime(currentTime.year, currentTime.month, minDay))) {
+      minDay += 1;
+      maxReps--;
+    }
+
+    return minDay;
   }
 
   void _fillMiddleLists() {
