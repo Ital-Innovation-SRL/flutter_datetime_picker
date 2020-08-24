@@ -121,6 +121,8 @@ class DatePickerModel extends CommonPickerModel {
   DateTime maxTime;
   DateTime minTime;
 
+  List<int> days = [];
+
   VisibleDayPredicate visibleDayPredicate;
 
   DatePickerModel({
@@ -211,9 +213,15 @@ class DatePickerModel extends CommonPickerModel {
     this.rightList = List.generate(maxDay - minDay + 1, (int index) {
       int day = minDay + index;
       DateTime date = DateTime(currentTime.year, currentTime.month, day);
-      if (visibleDayPredicate == null)
+      if (visibleDayPredicate == null) {
+        days.add(day);
         return '${minDay + index}${_localeDay()}';
-      if (visibleDayPredicate(date)) return '${minDay + index}${_localeDay()}';
+      }
+      if (visibleDayPredicate(date)) {
+        days.add(day);
+        return '${minDay + index}${_localeDay()}';
+      }
+      days.add(null);
       return null;
     });
     this.rightList.removeWhere((element) => element == null);
@@ -307,16 +315,17 @@ class DatePickerModel extends CommonPickerModel {
   void setRightIndex(int index) {
     super.setRightIndex(index);
     int minDay = _minDayOfCurrentMonth();
+    int _day = days.sublist(index).firstWhere((element) => element != null);
     currentTime = currentTime.isUtc
         ? DateTime.utc(
             currentTime.year,
             currentTime.month,
-            minDay + index,
+            _day,
           )
         : DateTime(
             currentTime.year,
             currentTime.month,
-            minDay + index,
+            _day,
           );
   }
 
